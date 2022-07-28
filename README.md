@@ -1,3 +1,6 @@
 # Web-Task-Manage
 
-# Em push code bên branch Master ạ
+## localhost:8080 (login)
+## localhost:8080/signup (signup)
+## localhost:8080/tasks (home list tasks)
+## localhost:8080/tasks/page/{pagenumber} (phân trang)
