@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/css/js/scrip.js}"></script>
+  </head>
+  <body>
+    <div class="center">
+      <h1>Sign Up</h1>
+      <form th:action="@{/signup}"  method="post" th:object="${user}">
+        <div class="txt_field">
+          <input th:field="*{name}" onchange="checkSignUp()" id="name" name="name" type="text" required>
+          <label>Name</label>
+        </div>
+        <div class="txt_field">
+          <input th:field="*{email}" name="email" type="email" required>
+          <label>Email</label>
+        </div>
+        <div class="txt_field">
+          <input th:field="*{username}" onchange="checkSignUp()" id="username" name="username" type="text" required>
+          <label>Username</label>
+        </div>
+        <div class="txt_field">
+          <input th:field="*{password}" onchange="checkSignUp()" id="password" name="password" type="password" required>
+          <label>Password</label>
+        </div>
+        <div class="txt_field">
+          <input onkeyup="checkSignUp()" id="confirmPassword" name="confirmPassword" type="password" required>
+          <label>Confirm Password</label>
+        </div>
+        <p id="warningLogin"></p>
+        <input id="inputSignUp" type="submit" value="Sign Up">
+      </form>
+    </div>
+  </body>
+</html>

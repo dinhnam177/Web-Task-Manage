@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcom to My tasks</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div >
+    <div class="container-fluid text-center">
+        <h3 style="margin: 20px"> List Task </h3>
+    </div>
+    <div style="margin: 20px">
+        <button type="button" class="btn btn-secondary"><a style="color: white; text-decoration: none" th:href="@{/export}">Export CSV</a></button>
+        <button type="button" class="btn btn-primary"><a style="color: white; text-decoration: none" th:href="@{/new}">Tạo mới</a></button>
+    </div>
+    <div class="container-fluid text-center">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tiêu đề</th>
+                <th>Trạng thái</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="task : ${listTasks}">
+                <tr>
+                    <td>[[${task.id}]]</td>
+                    <td>[[${task.taskName}]]</td>
+                    <td>[[${task.taskStatus}]]</td>
+                    <td>
+                        <button type="button" class="btn btn-primary"><a style="color: white; text-decoration: none" th:href="@{/edit}">Chỉnh sửa</a></button>
+                        <button type="button" class="btn btn-primary"><a style="color: white; text-decoration: none" th:href="@{/detail}">Chi tiết</a></button>
+                        <button type="button" class="btn btn-danger"><a style="color: white; text-decoration: none" href="#">Xoá</a></button>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Page navigation example" style="margin: 50px">
+        <ul class="pagination">
+            <li th:if="${currentPage !=0}" class="page-item"><a class="page-link" th:href="@{'/tasks/page/'+${currentPage-1}}"> << </a></li>
+            <li th:each="i:${#numbers.sequence(1,totalPages)}"  th:classappend="${currentPage==i-1 ? 'active' : '' }"  class="page-item">
+                <a class="page-link" th:href="@{'/tasks/page/'+${i-1}}">[[${i}]]</a>
+            </li>
+            <li th:if="${currentPage+1!=totalPages}" class="page-item"><a class="page-link" th:href="@{'/tasks/page/'+${currentPage+1}}"> >> </a></li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
