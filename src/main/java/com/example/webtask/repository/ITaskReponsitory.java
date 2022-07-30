@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ITaskReponsitory extends JpaRepository<Task, String> {
+    Page<Task> findAllByTaskNameContainingAndTaskStatusContaining(String taskName, String taskStatus, Pageable pageable);
 
-    Page<Task> findAll(Pageable pageable);
 }

@@ -4,33 +4,33 @@ import com.example.webtask.model.Task;
 import com.example.webtask.service.ITaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 
 @Controller
-//@RequestMapping("/")
 public class TaskController {
     @Autowired
     private ITaskService iTaskService;
 
-//    @ResponseBody
     @GetMapping("/tasks")
-    public String showTaskList(Model model){
-        return findPaginated(0,model);
-    }
-
-    @GetMapping("/tasks/page/{pageno}")
-    public String findPaginated(@PathVariable int pageno, Model model){
-        Page<Task>  page = iTaskService.getTaskPaginate(pageno, 2);
-
-        model.addAttribute("listTasks", page);
-        model.addAttribute("currentPage", pageno);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItem", page.getTotalElements());
+    public String search(Model model, @RequestParam("p") Optional<Integer> p, HttpServletRequest request){
+        String action = request.getParameter("action")==null ? "" : request.getParameter("action");
+        String actionView = request.getParameter("action")==null ? "All" : request.getParameter("action");
+        String search = request.getParameter("search")==null ? "" : request.getParameter("search");
+        if(action.equals("All")) {action = "";}
+        Pageable pageable = PageRequest.of(p.orElse(0), 2);
+        Page<Task> page = iTaskService.getTaskPaginate(search, action, pageable);
+        model.addAttribute("page", page);
+        model.addAttribute("search", search);
+        model.addAttribute("action", action);
+        model.addAttribute("actionView", actionView);
         return "index";
     }
 }
