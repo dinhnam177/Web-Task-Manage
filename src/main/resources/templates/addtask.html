@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>AddTask</title>
+  <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="center">
+  <a th:href="@{/tasks}" style="float: right; margin-right: 10px; margin-top: 10px"><button type="button" class="btn btn-danger">X</button></a>
+  <h1>Add Task</h1>
+  <form th:action="@{/addtask}" method="post">
+    <div class="txt_field">
+      <input name="taskName" type="text" placeholder="Tiêu đề">
+    </div>
+    <div class="txt_field">
+      <input name="description" placeholder="Mô tả" type="text">
+    </div>
+    <p id="warningLogin" th:text="${error}"></p>
+    <button class="btn btn-primary"  style="display:block; margin: 0 auto; width: 100px" type="submit" value="Add">Add</button>
+  </form>
+</div>
+
+</body>
+</html>

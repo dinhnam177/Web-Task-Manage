@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,21 @@ public class TaskController {
         model.addAttribute("action", action);
         model.addAttribute("actionView", actionView);
         return "index";
+    }
+
+    @GetMapping("/addtask")
+    public String addTask(){
+        return "addtask";
+    }
+    @PostMapping("/addtask")
+    public String checkExistTask(@ModelAttribute Task task, Model model){
+        if(iTaskService.checkExistTask(task.getTaskName()) == null){
+                task.setTaskStatus("open");
+                iTaskService.save(task);
+                return "redirect:/tasks";
+        }else {
+                model.addAttribute("error","Đã tồn tại Task !!!");
+        }
+        return "addtask";
     }
 }

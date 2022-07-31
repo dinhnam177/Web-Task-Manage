@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface ITaskService {
     List<Task> listAll();
+    Task checkExistTask(String taskName);
+    void save(Task task);
     Page<Task> getTaskPaginate(String taskName, String taskStatus, Pageable pageable);
 
 }

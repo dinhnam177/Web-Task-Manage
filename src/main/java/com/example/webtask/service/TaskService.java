@@ -24,4 +24,14 @@ public class TaskService implements ITaskService {
     public List<Task> listAll() {
         return iTaskReponsitory.findAll();
     }
+
+    @Override
+    public Task checkExistTask(String taskName) {
+        return iTaskReponsitory.findByTaskName(taskName);
+    }
+
+    @Override
+    public void save(Task task) {
+        iTaskReponsitory.save(task);
+    }
 }
