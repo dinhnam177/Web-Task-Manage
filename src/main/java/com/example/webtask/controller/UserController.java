@@ -1,40 +1,66 @@
 package com.example.webtask.controller;
 
-import com.example.webtask.model.User;
-import com.example.webtask.service.IUserService;
-import com.example.webtask.util.JwtUtil;
+import com.example.webtask.model.entity.User;
+import com.example.webtask.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
 public class UserController {
+    private final UserService userService;
 
-    private final IUserService iUserService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    private final JwtUtil jwtTokenUtil;
-//    @ResponseBody
     @GetMapping("/")
-    public String home(Model model){
+    public String home(Model model) {
         model.addAttribute("user", new User());
         return "login";
     }
 
-////    @ResponseBody
-    @GetMapping("/login")
-    public String showLogin(Model model){
+    @PostMapping("/login")
+    public String processForm(@Valid User user, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "login";
+        }
+        model.addAttribute("user", user);
+        return "index";
+    }
+
+    @GetMapping("/login_fail")
+    public String showLoginFail(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("error", "Login fail !!!");
         return "login";
     }
 
-//    @PostMapping("/login")
+    @GetMapping("/signup")
+    public String signUp(Model model) {
+        model.addAttribute("user", new User());
+        return "signup";
+    }
+
+    @PostMapping("/signup")
+    public String checkSignUp(@ModelAttribute User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "signup";
+        } else {
+            if (!userService.checkExistUsername(user.getUsername())) {
+                userService.save(user);
+                return "login";
+            }
+        }
+        return "login";
+    }
+
+    //    @Autowired
+//    private AuthenticationManager authenticationManager;
+//
+//    private final JwtUtil jwtTokenUtil;
+    //    @PostMapping("/login")
 //    public String generateToken(@RequestBody AuthRequest authRequest) throws Exception{
 //        try{
 //            authenticationManager.authenticate(
@@ -48,30 +74,4 @@ public class UserController {
 ////        return ResponseEntity.ok(new AuthenticationResponse(jwt));
 //        return jwtTokenUtil.generateToken(authRequest.getUsername());
 //    }
-
-    @GetMapping("/login_fail")
-    public String showLoginFail(Model model){
-        model.addAttribute("user", new User());
-        model.addAttribute("error", "Login fail !!!");
-        return "login";
-    }
-
-
-//    @ResponseBody
-    @GetMapping("/signup")
-    public String signUp(Model model){
-        model.addAttribute("user",new User());
-        return "signup";
-    }
-    @PostMapping("/signup")
-    public String checkSignUp(@ModelAttribute User user){
-        if(!iUserService.checkExistUsername(user.getUsername())){
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            iUserService.save(user);
-            return "login";
-        }
-        return "signup";
-    }
-
 }

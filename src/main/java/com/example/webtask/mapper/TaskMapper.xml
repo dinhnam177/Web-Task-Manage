@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.example.webtask.mapper.TaskMapper">
+    <resultMap id="result" type="com.example.webtask.model.entity.Task">
+        <result property="id" column="id"/>
+        <result property="taskName" column="task_name"/>
+        <result property="taskStatus" column="task_status"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <select id="findByTaskName" parameterType="String" resultMap="result">
+        SELECT * FROM tasks
+        WHERE task_name = '${task_name}'
+    </select>
+
+    <insert id="insertTask">
+        INSERT INTO tasks (task_name,task_status,task_status)
+        VALUES (
+                   #{task.taskName},
+                   #{task.email},
+                   #{task.taskStatus},
+                   #{task.description}
+               );
+    </insert>
+
+</mapper>

@@ -1,37 +1,18 @@
 package com.example.webtask.service;
 
-import com.example.webtask.model.Task;
-import com.example.webtask.repository.ITaskReponsitory;
-import lombok.RequiredArgsConstructor;
+import com.example.webtask.model.entity.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class TaskService implements ITaskService {
+public interface TaskService {
+    List<Task> listAll();
+    Task checkExistTask(String taskName);
+    void insertTask(Task task);
 
-    private final ITaskReponsitory iTaskReponsitory;
+    Task get(Integer id);
+    void update(Task task);
+    Page<Task> getTaskPaginate(String taskName, String taskStatus, Pageable pageable);
 
-    @Override
-    public Page<Task> getTaskPaginate(String taskName, String taskStatus, Pageable pageable) {
-        return iTaskReponsitory.findAllByTaskNameContainingAndTaskStatusContaining(taskName, taskStatus, pageable);
-    }
-
-    @Override
-    public List<Task> listAll() {
-        return iTaskReponsitory.findAll();
-    }
-
-    @Override
-    public Task checkExistTask(String taskName) {
-        return iTaskReponsitory.findByTaskName(taskName);
-    }
-
-    @Override
-    public void save(Task task) {
-        iTaskReponsitory.save(task);
-    }
 }

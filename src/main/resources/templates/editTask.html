@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Edit Task</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="center">
+    <a th:href="@{/tasks}" style="float: right; margin-right: 10px; margin-top: 10px">
+        <button type="button" class="btn btn-danger">X</button>
+    </a>
+    <h1>Edit Task</h1>
+    <form method="post" th:object="${task}">
+        <div class="txt_field">
+            <p th:if="${#fields.hasErrors('taskName')}" th:errors="*{taskName}" style="color: red"></p>
+            <input th:field="*{taskName}" name="taskName" type="text" placeholder="Tiêu đề">
+        </div>
+        <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color: red"></p>
+        <textarea th:field="*{description}" name="description" placeholder="Mô tả" type="text"
+                  style="resize: none; width: 320px; height: 100px; margin-bottom: 10px"></textarea>
+        <div>
+            <select type="button" class="btn btn-secondary selectAction"
+                    style="display:block; margin: 0 0 25px  auto; width: 320px" name="action">
+                <option selected disabled hidden th:text="${task.taskStatus}"></option>
+                <option value="Open">Open</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Done">Done</option>
+                <option value="All">All</option>
+            </select>
+        </div>
+            <a th:href="@{/tasks}" style="text-decoration: none">
+                <button type="button" class="btn btn-danger">Cancel</button>
+            </a>
+            <button class="btn btn-primary" type="submit">Add</button>
+    </form>
+</div>
+</body>
+</html>

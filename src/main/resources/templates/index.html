@@ -6,18 +6,20 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 </head>
 <body>
-<div >
+<div>
     <div class="container-fluid text-center">
         <h3 style="margin: 20px"> List Task </h3>
     </div>
     <div style="overflow: auto">
         <div class="headerButton" style="float: left; margin-left: 30px">
             <button type="button" class="btn btn-secondary">Export CSV</button>
-            <button type="button" class="btn btn-primary"><a style="color: #fff; text-decoration: none;" th:href="@{/addtask}">Add Task</a></button>
+            <button type="button" class="btn btn-primary"><a style="color: #fff; text-decoration: none;"
+                                                             th:href="@{/addTask}">Add Task</a></button>
         </div>
         <div style="margin-right: 30px">
             <form action="/tasks" method="GET">
-                <select type="button" class="btn btn-primary selectAction" style="float: right;" onchange="this.form.submit()" name="action">
+                <select type="button" class="btn btn-primary selectAction" style="float: right;"
+                        onchange="this.form.submit()" name="action">
                     <option selected disabled hidden th:text="${actionView}"></option>
                     <option value="Open">Open</option>
                     <option value="Inprogress">Inprogress</option>
@@ -49,9 +51,15 @@
                     <td>[[${task.taskName}]]</td>
                     <td>[[${task.taskStatus}]]</td>
                     <td>
-                        <button type="button" class="btn btn-primary"><a style="color: white; text-decoration: none" th:href="@{/edit}">Chỉnh sửa</a></button>
-                        <button type="button" class="btn btn-primary"><a style="color: white; text-decoration: none" th:href="@{/detail}">Chi tiết</a></button>
-                        <button type="button" class="btn btn-danger"><a style="color: white; text-decoration: none" href="#">Xoá</a></button>
+                        <button type="button" class="btn btn-primary"><a style="color: white; text-decoration: none"
+                                                                         th:href="@{'/editTask/' + ${task.id}}">Chỉnh
+                            sửa</a></button>
+                        <button type="button" class="btn btn-primary"><a style="color: white; text-decoration: none"
+                                                                         th:href="@{'/detailTask/' + ${task.id}}">Chi
+                            tiết</a></button>
+                        <button type="button" class="btn btn-danger"><a style="color: white; text-decoration: none"
+                                                                        th:href="@{'/deleteTask/' + ${task.id}}">Xoá</a>
+                        </button>
                     </td>
                 </tr>
             </th:block>
@@ -64,13 +72,16 @@
                 <a class="page-link" th:href="@{/tasks(search=${search},action=${action} , p=${page.number}-1)}"><<</a>
             </li>
             <li class="page-item" th:if="${page.number}>=1">
-                <a class="page-link" th:href="@{/tasks(search=${search},action=${action} , p=${page.number}-1)}" th:text="(${page.number})"></a>
+                <a class="page-link" th:href="@{/tasks(search=${search},action=${action} , p=${page.number}-1)}"
+                   th:text="(${page.number})"></a>
             </li>
             <li class="page-item disabled">
-                <a class="page-link" style="font-weight: bold;" tabindex="-1" aria-disabled="true" href="#" th:text="(${page.number}+1)"></a>
+                <a class="page-link" style="font-weight: bold;" tabindex="-1" aria-disabled="true" href="#"
+                   th:text="(${page.number}+1)"></a>
             </li>
             <li class="page-item" th:if="${page.number}<${page.totalPages}-1">
-                <a class="page-link" th:href="@{/tasks(search=${search},action=${action} , p=${page.number + 1})}" th:text="(${page.number}+2)"></a>
+                <a class="page-link" th:href="@{/tasks(search=${search},action=${action} , p=${page.number + 1})}"
+                   th:text="(${page.number}+2)"></a>
             </li>
             <li class="page-item" th:classappend="(${page.number}<${page.totalPages}-1) ? '' : disabled">
                 <a class="page-link" th:href="@{/tasks(search=${search},action=${action} , p=${page.number}+1)}">>></a>

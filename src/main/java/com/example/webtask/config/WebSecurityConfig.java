@@ -1,7 +1,6 @@
 package com.example.webtask.config;
 
-import com.example.webtask.service.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.webtask.service.impl.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -22,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return new CustomUserDetailsService();
+        return new UserDetailsServiceImpl();
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -45,8 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/login","/signup").anonymous()
-                .antMatchers("/*")
-                .authenticated().anyRequest()
+                .antMatchers("/*").authenticated()
+                .anyRequest()
                 .permitAll().and()
                 .formLogin().loginPage("/login")
                 .failureUrl("/login_fail")
