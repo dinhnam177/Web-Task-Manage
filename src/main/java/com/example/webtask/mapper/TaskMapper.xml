@@ -1,27 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace = "com.example.webtask.mapper.TaskMapper">
-    <resultMap id="result" type="com.example.webtask.model.entity.Task">
+<mapper namespace="com.example.webtask.mapper.TaskMapper">
+    <resultMap id="result" type="com.example.webtask.model.Task">
         <result property="id" column="id"/>
         <result property="taskName" column="task_name"/>
         <result property="taskStatus" column="task_status"/>
         <result property="description" column="description"/>
     </resultMap>
-
     <select id="findByTaskName" parameterType="String" resultMap="result">
-        SELECT * FROM tasks
+        SELECT *
+        FROM tasks
         WHERE task_name = '${task_name}'
     </select>
 
+    <select id="findAllByPage" resultMap="result">
+        SELECT *
+        FROM tasks
+        WHERE task_name LIKE '%' #{taskName} '%' AND task_status LIKE '%' #{taskStatus} '%' LIMIT #{pageable.offset}
+            , #{pageable.pageSize};
+    </select>
+
+    <select id="countTasks" resultType="int">
+        SELECT count(*)
+        FROM tasks
+    </select>
+
     <insert id="insertTask">
-        INSERT INTO tasks (task_name,task_status,task_status)
-        VALUES (
-                   #{task.taskName},
-                   #{task.email},
-                   #{task.taskStatus},
-                   #{task.description}
-               );
+        INSERT INTO tasks (task_name, task_status, description)
+        VALUES (#{task.taskName},
+                #{task.taskStatus},
+                #{task.description})
     </insert>
+
+    <update id="updateTask">
+        UPDATE tasks
+        SET task_name   = #{task.taskName},
+            task_status = #{task.taskStatus},
+            description = #{task.description}
+        WHERE id = #{task.id}
+    </update>
 
 </mapper>

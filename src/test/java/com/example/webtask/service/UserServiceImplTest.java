@@ -1,6 +1,6 @@
 package com.example.webtask.service;
 
-import com.example.webtask.model.entity.User;
+import com.example.webtask.model.User;
 import com.example.webtask.repository.UserRepository;
 import com.example.webtask.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;

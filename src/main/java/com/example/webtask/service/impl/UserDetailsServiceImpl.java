@@ -1,7 +1,7 @@
 package com.example.webtask.service.impl;
 
 import com.example.webtask.model.Impl.UserDetailsImpl;
-import com.example.webtask.model.entity.User;
+import com.example.webtask.model.User;
 import com.example.webtask.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

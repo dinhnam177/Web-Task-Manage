@@ -1,6 +1,6 @@
 package com.example.webtask.repository;
 
-import com.example.webtask.model.entity.Task;
+import com.example.webtask.model.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -23,19 +23,19 @@ function checkSignUp(){
     let name = document.getElementById("name").value;
     let inputSignUp = document.getElementById("inputSignUp");
     if(name.length < 3 || name.length > 256){
-        document.getElementById("warningLogin").innerText = "Tên phải từ 3 - 256 ký tự !!!";
+        document.getElementById("warningSignUp").innerText = "Tên phải từ 3 - 256 ký tự !!!";
         inputSignUp.setAttribute("disabled", "disabled");
     }
     else if(username.length < 3 || username.length > 256){
-        document.getElementById("warningLogin").innerText = "Tài khoản phải từ 3 - 256 ký tự !!!";
+        document.getElementById("warningSignUp").innerText = "Tài khoản phải từ 3 - 256 ký tự !!!";
         inputSignUp.setAttribute("disabled", "disabled");
     }
     else if(password.length < 8 || password.length > 256){
-        document.getElementById("warningLogin").innerText = "Mật khẩu phải từ 8 - 256 ký tự !!!";
+        document.getElementById("warningSignUp").innerText = "Mật khẩu phải từ 8 - 256 ký tự !!!";
         inputSignUp.setAttribute("disabled", "disabled");
     }
     else if(confirmPassword.localeCompare(password)){
-        document.getElementById("warningLogin").innerText = "Mật khẩu chưa khớp !!!";
+        document.getElementById("warningSignUp").innerText = "Mật khẩu chưa khớp !!!";
         inputSignUp.setAttribute("disabled", "disabled");
         console.log(confirmPassword);
     }

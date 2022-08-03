@@ -1,6 +1,6 @@
 package com.example.webtask.model.Impl;
 
-import com.example.webtask.model.entity.User;
+import com.example.webtask.model.User;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;

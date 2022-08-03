@@ -1,6 +1,6 @@
 package com.example.webtask.controller;
 
-import com.example.webtask.model.entity.User;
+import com.example.webtask.model.User;
 import com.example.webtask.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,14 +21,14 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String processForm(@Valid User user, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "login";
-        }
-        model.addAttribute("user", user);
-        return "index";
-    }
+//    @PostMapping("/login")
+//    public String processForm(@Valid User user, BindingResult bindingResult, Model model) {
+//        if (bindingResult.hasErrors()) {
+//            return "login";
+//        }
+//        model.addAttribute("user", user);
+//        return "index";
+//    }
 
     @GetMapping("/login_fail")
     public String showLoginFail(Model model) {

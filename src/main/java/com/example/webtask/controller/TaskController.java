@@ -1,9 +1,11 @@
 package com.example.webtask.controller;
 
-import com.example.webtask.model.entity.Task;
+import com.example.webtask.model.Task;
 import com.example.webtask.service.TaskService;
+import com.example.webtask.service.impl.TaskServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -20,20 +23,23 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TaskController {
 
-    private final TaskService taskService;
+    private final TaskServiceImpl taskService;
 
     @GetMapping("/tasks")
     public String search(Model model, @RequestParam("p") Optional<Integer> p, HttpServletRequest request){
-        String action = request.getParameter("action")==null ? "" : request.getParameter("action");
-        String actionView = request.getParameter("action")==null ? "All" : request.getParameter("action");
+        String status = request.getParameter("status")==null ? "" : request.getParameter("status");
+        String statusView = request.getParameter("status")==null ? "All" : request.getParameter("status");
         String search = request.getParameter("search")==null ? "" : request.getParameter("search");
-        if(action.equals("All")) {action = "";}
+
+        if(status.equals("All")) {status = "";}
         Pageable pageable = PageRequest.of(p.orElse(0), 2);
-        Page<Task> page = taskService.getTaskPaginate(search, action, pageable);
+        List<Task> tasks = taskService.findAllByPage(search, status, pageable);
+        Page<Task> page = new PageImpl<>(tasks,pageable,taskService.countTask());
+
         model.addAttribute("page", page);
         model.addAttribute("search", search);
-        model.addAttribute("action", action);
-        model.addAttribute("actionView", actionView);
+        model.addAttribute("status", status);
+        model.addAttribute("statusView", statusView);
         return "index";
     }
 
@@ -61,13 +67,13 @@ public class TaskController {
 
     @GetMapping("/editTask/{id}")
     public String showEditTask(Model model, @PathVariable("id") Integer id) {
-        Task task = taskService.get(id);
+        Task task = taskService.getTaskById(id);
         model.addAttribute("task", task);
         return "editTask";
     }
     @PostMapping("/editTask/{id}")
     public String editTask(@PathVariable("id") Integer id, BindingResult bindingResult,
-                           @ModelAttribute("task") Task task){
+                           @ModelAttribute("task") Task task, Model model){
         if(bindingResult.hasErrors()) {
             return "editTask";
         }

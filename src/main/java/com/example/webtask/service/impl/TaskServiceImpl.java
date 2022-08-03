@@ -1,7 +1,7 @@
 package com.example.webtask.service.impl;
 
 import com.example.webtask.mapper.TaskMapper;
-import com.example.webtask.model.entity.Task;
+import com.example.webtask.model.Task;
 import com.example.webtask.repository.TaskRepository;
 import com.example.webtask.service.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,8 @@ public class TaskServiceImpl implements TaskService {
     private final TaskMapper taskMapper;
 
     @Override
-    public Page<Task> getTaskPaginate(String taskName, String taskStatus, Pageable pageable) {
-        return taskRepository.findAllByTaskNameContainingAndTaskStatusContaining(taskName, taskStatus, pageable);
+    public List<Task> findAllByPage(String taskName, String taskStatus, Pageable pageable) {
+        return taskMapper.findAllByPage(taskName, taskStatus, pageable);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task get(Integer id) {
+    public Task getTaskById(Integer id) {
         Optional<Task> result = taskRepository.findAllById(id);
         if (result.isPresent()){
             return result.get();
@@ -53,7 +53,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void update(Task task) {
-
+        taskMapper.updateTask(task);
     }
+
+    @Override
+    public int countTask() {
+        return taskMapper.countTasks();
+    }
+
 
 }

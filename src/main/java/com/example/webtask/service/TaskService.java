@@ -1,6 +1,6 @@
 package com.example.webtask.service;
 
-import com.example.webtask.model.entity.Task;
+import com.example.webtask.model.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,8 +11,9 @@ public interface TaskService {
     Task checkExistTask(String taskName);
     void insertTask(Task task);
 
-    Task get(Integer id);
+    Task getTaskById(Integer id);
     void update(Task task);
-    Page<Task> getTaskPaginate(String taskName, String taskStatus, Pageable pageable);
+    int countTask();
+    List<Task> findAllByPage(String taskName, String taskStatus, Pageable pageable);
 
 }

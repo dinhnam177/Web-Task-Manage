@@ -1,0 +1,32 @@
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.example.webtask.mapper.UserMapper">
+    <resultMap id="result" type="com.example.webtask.model.User">
+        <result property="id" column="id"/>
+        <result property="full_name" column="full_name"/>
+        <result property="email" column="email"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+    </resultMap>
+
+    <select id="findByUsernameAndPassword" parameterType="String" resultMap="result">
+        SELECT * FROM users
+        WHERE username = '${username}' AND password = '${password}'
+    </select>
+
+    <select id="findByUsername" parameterType="String" resultMap="result">
+        SELECT * FROM users
+        WHERE username = '${username}'
+    </select>
+
+    <insert id="insertUser">
+        INSERT INTO users (full_name,email,username,password)
+        VALUES (
+                #{user.fullName},
+                #{user.email},
+                #{user.username},
+                #{user.password}
+               );
+    </insert>
+</mapper>
