@@ -21,14 +21,20 @@ public class UserController {
         return "login";
     }
 
-//    @PostMapping("/login")
-//    public String processForm(@Valid User user, BindingResult bindingResult, Model model) {
-//        if (bindingResult.hasErrors()) {
-//            return "login";
-//        }
-//        model.addAttribute("user", user);
-//        return "index";
-//    }
+    @GetMapping("/login")
+    public String showLogin(Model model) {
+        model.addAttribute("user", new User());
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String processForm(@Valid User user, Model model, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "login";
+        }
+        model.addAttribute("user", user);
+        return "index";
+    }
 
     @GetMapping("/login_fail")
     public String showLoginFail(Model model) {
@@ -44,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String checkSignUp(@ModelAttribute User user, BindingResult bindingResult) {
+    public String checkSignUp(@Valid @ModelAttribute User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "signup";
         } else {
@@ -55,6 +61,8 @@ public class UserController {
         }
         return "login";
     }
+
+    //login with jwt
 
     //    @Autowired
 //    private AuthenticationManager authenticationManager;

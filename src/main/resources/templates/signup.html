@@ -4,36 +4,35 @@
     <meta charset="utf-8">
     <title>Sign Up</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/css/js/scrip.js}"></script>
+    <script th:src="@{/js/scrip.js}"></script>
 </head>
 <body>
 <div class="center">
     <h1>Sign Up</h1>
     <form th:action="@{/signup}" method="post" th:object="${user}">
         <div class="txt_field">
-            <input th:field="*{fullName}" onchange="checkSignUp()" id="name" name="name" type="text" required>
+            <input th:field="*{fullName}" onchange="checkSignUp()" id="name" name="name" type="text">
             <label>Name</label>
         </div>
         <div class="txt_field">
-            <input th:field="*{email}" name="email" type="email" required>
+            <input th:field="*{email}" name="email" type="email">
             <label>Email</label>
         </div>
         <div class="txt_field">
-            <input th:field="*{username}" onchange="checkSignUp()" id="username" name="username" type="text" required>
-            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red"></p>
+            <input th:field="*{username}" onchange="checkSignUp()" id="username" name="username" type="text">
             <label>Username</label>
         </div>
+        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red"></p>
         <div class="txt_field">
-            <input th:field="*{password}" onchange="checkSignUp()" id="password" name="password" type="password"
-                   required>
-            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></p>
+            <input th:field="*{password}" onchange="checkSignUp()" id="password" name="password" type="password">
             <label>Password</label>
         </div>
+        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></p>
         <div class="txt_field">
-            <input onkeyup="checkSignUp()" id="confirmPassword" name="confirmPassword" type="password" required>
+            <input onkeyup="checkSignUp()" id="confirmPassword" name="confirmPassword" type="password">
             <label>Confirm Password</label>
         </div>
-        <p id="warningSignUp"></p>
+        <p id="warningSignUp" style="color: red; margin-bottom: 20px"></p>
         <input id="inputSignUp" type="submit" value="Sign Up">
     </form>
 </div>

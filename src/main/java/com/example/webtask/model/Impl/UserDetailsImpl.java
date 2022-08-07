@@ -1,4 +1,4 @@
-package com.example.webtask.model.Impl;
+package com.example.webtask.model.impl;
 
 import com.example.webtask.model.User;
 import org.springframework.security.core.GrantedAuthority;

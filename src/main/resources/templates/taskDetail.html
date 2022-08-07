@@ -1,10 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>Task Detail</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class="center">
+    <a th:href="@{/tasks}" style="float: right; margin-right: 10px; margin-top: 10px">
+        <button type="button" class="btn btn-danger">&times;</button>
+    </a>
+    <h1>Task Detail</h1>
+    <div style="padding: 20px 20px">
+        <div class="txt_field">
+            <h4 th:text="(${task.taskName})"></h4>
+        </div>
+        <div class="txt_field">
+            <pre th:text="(${task.description})"></pre>
+        </div>
+    </div>
+    <a th:href="@{/tasks}">
+        <button type="button" class="btn btn-secondary">Cancel</button>
+    </a>
+    <a th:href="@{'/editTask/' + ${task.id}}">
+        <button type="button" class="btn btn-primary">Edit</button>
+    </a>
+    <button class="btn btn-danger" type="button" value="Delete" data-toggle="modal" data-target="#deleteTask">Delete
+    </button>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="deleteTask">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Bạn có chắc chắn muốn xoá không ?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                Khi xoá thì không thể lấy lại được ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a style="text-decoration: none" th:href="@{'/deleteTask/' + ${task.id}}">
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

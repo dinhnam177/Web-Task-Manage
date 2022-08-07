@@ -2,27 +2,32 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Welcom to My tasks</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <title>Welcome to My tasks</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div>
+    <a th:href="@{/login}" class="btn btn-info" style="float: right; margin-right: 30px">LogOut</a></button>
     <div class="container-fluid text-center">
-        <h3 style="margin: 20px"> List Task </h3>
+        <h3 style="margin: 50px"> List Task </h3>
     </div>
     <div style="overflow: auto">
         <div class="headerButton" style="float: left; margin-left: 30px">
-            <button type="button" class="btn btn-secondary">Export CSV</button>
+            <button type="button" class="btn btn-secondary"><a style="text-decoration: none;color: #fff"
+                                                               th:href="@{/export}">Export CSV</a></button>
             <button type="button" class="btn btn-primary"><a style="color: #fff; text-decoration: none;"
                                                              th:href="@{/addTask}">Add Task</a></button>
         </div>
         <div style="margin-right: 30px">
-            <form action="/tasks" method="GET">
+            <form th:action="@{'/tasks'}" method="GET">
                 <select type="button" class="btn btn-primary selectAction" style="float: right;"
                         onchange="this.form.submit()" name="status">
-                    <option selected disabled hidden th:text="${statusView}"></option>
+                    <option selected disabled hidden th:text="${statusView}">Select</option>
                     <option value="Open">Open</option>
-                    <option value="In progress">In progress</option>
+                    <option value="InProgress">InProgress</option>
                     <option value="Done">Done</option>
                     <option value="All">All</option>
                 </select>
@@ -30,40 +35,51 @@
             <form class="input-group mb-3 searchTask" action="/tasks" method="GET"
                   style="float: right; max-width: 20rem; margin-right: 1rem;">
                 <input type="text" class="form-control" placeholder="Từ khóa" name="search" style="margin-right: 10px">
-                <input type="submit" class="btn btn-primary" value="Tìm kiếm">
+                <input type="submit" class="btn btn-primary" value="Search">
             </form>
         </div>
     </div>
     <div class="container-fluid text-center">
         <table class="table table-bordered">
-            <thead>
             <tr>
                 <th>ID</th>
-                <th>Tiêu đề</th>
-                <th>Trạng thái</th>
+                <th>Title</th>
+                <th>Status</th>
                 <th>Action</th>
             </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="task: ${page.content}">
-                <tr>
-                    <td>[[${task.id}]]</td>
-                    <td>[[${task.taskName}]]</td>
-                    <td>[[${task.taskStatus}]]</td>
-                    <td>
-                        <button type="button" class="btn btn-primary"><a style="color: white; text-decoration: none"
-                                                                         th:href="@{'/editTask/' + ${task.id}}">Chỉnh
-                            sửa</a></button>
-                        <button type="button" class="btn btn-primary"><a style="color: white; text-decoration: none"
-                                                                         th:href="@{'/detailTask/' + ${task.id}}">Chi
-                            tiết</a></button>
-                        <button type="button" class="btn btn-danger"><a style="color: white; text-decoration: none"
-                                                                        th:href="@{'/deleteTask/' + ${task.id}}">Xoá</a>
-                        </button>
-                    </td>
-                </tr>
-            </th:block>
-            </tbody>
+            <tr th:each="task: ${page.content}">
+                <td>[[${task.id}]]</td>
+                <td>[[${task.taskName}]]</td>
+                <td>[[${task.taskStatus}]]</td>
+                <td>
+                    <button type="button" class="btn btn-primary"><a style="color: white; text-decoration: none"
+                                                                     th:href="@{'/editTask/' + ${task.id}}">Edit</a>
+                    </button>
+                    <button type="button" class="btn btn-primary"><a style="color: white; text-decoration: none"
+                                                                     th:href="@{'/taskDetail/' + ${task.id}}">Detail</a>
+                    </button>
+                    <button class="btn btn-danger" type="button" value="Delete" data-toggle="modal"
+                            data-target="#deleteTask">Delete
+                    </button>
+                </td>
+                <div class="modal fade" id="deleteTask">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Bạn có chắc chắn muốn xoá không ?</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">Khi xoá thì không thể lấy lại được ...</div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <a style="text-decoration: none" class="btn btn-danger"
+                                   th:href="@{'/deleteTask/' + ${task.id}}" role="button">
+                                    Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tr>
         </table>
     </div>
     <nav aria-label="Page navigation">

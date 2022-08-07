@@ -7,13 +7,20 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface TaskService {
-    List<Task> listAll();
     Task checkExistTask(String taskName);
+
     void insertTask(Task task);
 
-    Task getTaskById(Integer id);
+    Task getTaskById(int id);
+
     void update(Task task);
+
     int countTask();
+
+    void deleteTaskById(int id);
+
+    List<Task> findAll();
+
     List<Task> findAllByPage(String taskName, String taskStatus, Pageable pageable);
 
 }

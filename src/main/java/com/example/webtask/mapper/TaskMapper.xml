@@ -8,10 +8,22 @@
         <result property="taskStatus" column="task_status"/>
         <result property="description" column="description"/>
     </resultMap>
+
+    <select id="findAll" resultMap="result">
+        SELECT id, task_name, task_status, description
+        FROM tasks
+    </select>
+
     <select id="findByTaskName" parameterType="String" resultMap="result">
         SELECT *
         FROM tasks
         WHERE task_name = '${task_name}'
+    </select>
+
+    <select id="findById" parameterType="int" resultMap="result">
+        SELECT *
+        FROM tasks
+        WHERE id = #{id}
     </select>
 
     <select id="findAllByPage" resultMap="result">
@@ -41,4 +53,9 @@
         WHERE id = #{task.id}
     </update>
 
+    <delete id="deleteTaskById">
+        DELETE
+        FROM tasks
+        WHERE id = #{id}
+    </delete>
 </mapper>

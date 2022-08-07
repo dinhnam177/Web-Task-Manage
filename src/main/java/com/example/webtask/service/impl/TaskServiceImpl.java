@@ -16,8 +16,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
-    private final TaskRepository taskRepository;
-
     private final TaskMapper taskMapper;
 
     @Override
@@ -25,10 +23,6 @@ public class TaskServiceImpl implements TaskService {
         return taskMapper.findAllByPage(taskName, taskStatus, pageable);
     }
 
-    @Override
-    public List<Task> listAll() {
-        return taskRepository.findAll();
-    }
 
     @Override
     public Task checkExistTask(String taskName) {
@@ -42,9 +36,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task getTaskById(Integer id) {
-        Optional<Task> result = taskRepository.findAllById(id);
-        if (result.isPresent()){
+    public Task getTaskById(int id) {
+        Optional<Task> result = taskMapper.findById(id);
+        if (result.isPresent()) {
             return result.get();
         } else {
             return null;
@@ -61,5 +55,13 @@ public class TaskServiceImpl implements TaskService {
         return taskMapper.countTasks();
     }
 
+    @Override
+    public void deleteTaskById(int id) {
+        taskMapper.deleteTaskById(id);
+    }
 
+    @Override
+    public List<Task> findAll() {
+        return taskMapper.findAll();
+    }
 }
